@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AnotherWeatherApp</string>
+    <string name="enable_gps">GPS disabled</string>
+    <string name="gps_dialog_message">Turn on GPS to show the weather in your area or select a city</string>
+    <string name="turn_on_gps">Turn on gps</string>
+    <string name="location_permission_not_granted">Location permission not granted</string>
+</resources>
