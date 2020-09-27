@@ -1,11 +1,35 @@
 package com.example.anotherweatherapp.data.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+///(foreignKeys = @ForeignKey(
+//        entity = Example.class,
+//        parentColumns = "id",
+//        childColumns = "example_id"
+//))
 
+@Entity
 public class Hourly {
+
+
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private int id;
+
+    @ColumnInfo(name = "example_id")
+    private int exampleId;
+
+
     @SerializedName("dt")
     @Expose
     private Long dt;
@@ -23,7 +47,7 @@ public class Hourly {
     private Long humidity;
     @SerializedName("dew_point")
     @Expose
-    private Long dewPoint;
+    private Double dewPoint;
     @SerializedName("clouds")
     @Expose
     private Long clouds;
@@ -36,15 +60,34 @@ public class Hourly {
     @SerializedName("wind_deg")
     @Expose
     private Long windDeg;
+
     @SerializedName("weather")
     @Expose
+    @TypeConverters({WeatherTypeConverters.class})
     private List<Weather> weather = null;
     @SerializedName("pop")
     @Expose
     private Double pop;
+    @Embedded
     @SerializedName("rain")
     @Expose
     private Rain rain;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getExampleId() {
+        return exampleId;
+    }
+
+    public void setExampleId(int exampleId) {
+        this.exampleId = exampleId;
+    }
 
     public Long getDt() {
         return dt;
@@ -86,11 +129,11 @@ public class Hourly {
         this.humidity = humidity;
     }
 
-    public Long getDewPoint() {
+    public Double getDewPoint() {
         return dewPoint;
     }
 
-    public void setDewPoint(Long dewPoint) {
+    public void setDewPoint(Double dewPoint) {
         this.dewPoint = dewPoint;
     }
 

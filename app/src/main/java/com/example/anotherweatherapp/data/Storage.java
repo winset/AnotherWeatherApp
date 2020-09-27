@@ -1,9 +1,10 @@
 package com.example.anotherweatherapp.data;
 
-import com.example.anotherweatherapp.data.database.WeatherDao;
-import com.example.anotherweatherapp.data.model.HourlyForecastsInfo;
+import android.util.Log;
 
-import java.util.List;
+import com.example.anotherweatherapp.data.database.WeatherDao;
+import com.example.anotherweatherapp.data.model.Example;
+import com.example.anotherweatherapp.ui.MainFragment;
 
 public class Storage {
 
@@ -14,14 +15,29 @@ public class Storage {
         this.weatherDao = weatherDao;
     }
 
-    public void insertHourlyForecast(List<HourlyForecastsInfo> hourlyForecastsInfoList){
-        for(int i =0;i<hourlyForecastsInfoList.size();i++){
+    public void insertAllForecast(Example example){
+       /* for(int i =0;i<hourlyForecastsInfoList.size();i++){
             hourlyForecastsInfoList.get(i).setId(i);
-        }
-        weatherDao.insertHourlyForecast(hourlyForecastsInfoList);
+        }*/
+        Log.d("TAG", "insertAllForecast: " + example.getHourly().size());
+        weatherDao.insertForecast(example);
+        weatherDao.clearHourlyTable();
+        Log.d("TAG", "insertAllForecast: " + example.getHourly().size());
+        weatherDao.insertHourlyForecast(example.getHourly());
+        weatherDao.clearDailyTable();
+        weatherDao.insertDailyForecast(example.getDaily());
+        Log.d("TAG", "insertAllForecastfgfg: " + example.getHourly().size());
+
     }
 
-    public List<HourlyForecastsInfo> getHourlyForecast(){
-        return weatherDao.getAllHourlyForecast();
+    public Example getHourlyForecast(){
+
+        Example example = new Example();
+        example = weatherDao.getAllForecast();
+    //    Log.d(MainFragment.TAG, "getHourlyForecasffgt: " + example.getHourly().size());
+        example.setHourly(weatherDao.getHourlyForecast());
+        Log.d(MainFragment.TAG, "getHourlyForecaxxfst: after insert " + example.getHourly().size());
+        example.setDaily(weatherDao.getDailyForecast());
+        return example;
     }
 }

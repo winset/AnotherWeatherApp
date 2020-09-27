@@ -1,24 +1,32 @@
 package com.example.anotherweatherapp.data.model;
 
+import androidx.room.ColumnInfo;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Temp {
+    @ColumnInfo(name = "temp_day")
     @SerializedName("day")
     @Expose
     private Double day;
+    @ColumnInfo(name = "temp_min")
     @SerializedName("min")
     @Expose
     private Double min;
+    @ColumnInfo(name = "temp_max")
     @SerializedName("max")
     @Expose
     private Double max;
+    @ColumnInfo(name = "temp_night")
     @SerializedName("night")
     @Expose
     private Double night;
+    @ColumnInfo(name = "temp_eve")
     @SerializedName("eve")
     @Expose
     private Double eve;
+    @ColumnInfo(name = "temp_morn")
     @SerializedName("morn")
     @Expose
     private Double morn;

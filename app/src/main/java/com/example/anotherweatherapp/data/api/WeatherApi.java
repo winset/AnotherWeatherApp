@@ -1,15 +1,9 @@
 package com.example.anotherweatherapp.data.api;
 
 import com.example.anotherweatherapp.data.model.Example;
-import com.example.anotherweatherapp.data.model.HourlyForecastsInfo;
 
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Maybe;
 import io.reactivex.rxjava3.core.Single;
-import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface WeatherApi  {
@@ -21,8 +15,8 @@ public interface WeatherApi  {
             @Query("language") String language,
             @Query("metric") String metric);*/
 
-    @GET("data/2.5/onecall/" )
-    Single<Example> getHourlyForcast(
+    @GET("data/2.5/onecall" )
+    Single<Example> getForecast(
             //  @Path("locationId") String locationId,
             @Query("lat") String latitude,
             @Query("lon") String longitude,

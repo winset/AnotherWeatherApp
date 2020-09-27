@@ -1,11 +1,35 @@
 package com.example.anotherweatherapp.data.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
-
+///(foreignKeys = @ForeignKey(
+//        entity = Example.class,
+//        parentColumns = "id",
+//        childColumns = "example_id"
+//))
+@Entity
 public class Daily {
+
+
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private int id;
+
+    @ColumnInfo(name = "example_id")
+    private int exampleId;
+
+
     @SerializedName("dt")
     @Expose
     private Long dt;
@@ -15,12 +39,15 @@ public class Daily {
     @SerializedName("sunset")
     @Expose
     private Long sunset;
+    @Embedded
     @SerializedName("temp")
     @Expose
     private Temp temp;
+    @Embedded
     @SerializedName("feels_like")
     @Expose
     private FeelsLike feelsLike;
+
     @SerializedName("pressure")
     @Expose
     private Long pressure;
@@ -36,21 +63,39 @@ public class Daily {
     @SerializedName("wind_deg")
     @Expose
     private Long windDeg;
+
     @SerializedName("weather")
     @Expose
+    @TypeConverters({WeatherTypeConverters.class})
     private List<Weather> weather = null;
     @SerializedName("clouds")
     @Expose
     private Long clouds;
     @SerializedName("pop")
     @Expose
-    private Long pop;
+    private Double pop;
     @SerializedName("uvi")
     @Expose
     private Double uvi;
     @SerializedName("rain")
     @Expose
     private Double rain;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getExampleId() {
+        return exampleId;
+    }
+
+    public void setExampleId(int exampleId) {
+        this.exampleId = exampleId;
+    }
 
     public Long getDt() {
         return dt;
@@ -148,11 +193,11 @@ public class Daily {
         this.clouds = clouds;
     }
 
-    public Long getPop() {
+    public Double getPop() {
         return pop;
     }
 
-    public void setPop(Long pop) {
+    public void setPop(Double pop) {
         this.pop = pop;
     }
 

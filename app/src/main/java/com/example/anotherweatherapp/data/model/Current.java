@@ -1,11 +1,30 @@
 package com.example.anotherweatherapp.data.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class Current {
+
+
+
+/*    @PrimaryKey
+    @ColumnInfo(name = "id")
+    private int id;
+
+    @ColumnInfo(name = "example_id")
+    private int exampleId;*/
+
+
 
     @SerializedName("dt")
     @Expose
@@ -46,9 +65,27 @@ public class Current {
     @SerializedName("wind_deg")
     @Expose
     private Long windDeg;
+
     @SerializedName("weather")
     @Expose
+    @TypeConverters({WeatherTypeConverters.class})
     private List<Weather> weather = null;
+
+   /* public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getExampleId() {
+        return exampleId;
+    }
+
+    public void setExampleId(int exampleId) {
+        this.exampleId = exampleId;
+    }*/
 
     public Long getDt() {
         return dt;

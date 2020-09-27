@@ -1,24 +1,18 @@
 package com.example.anotherweatherapp.ui;
 
 import android.location.Location;
-import android.location.LocationManager;
 import android.util.Log;
 
 import com.example.anotherweatherapp.BuildConfig;
 import com.example.anotherweatherapp.common.BasePresenter;
 import com.example.anotherweatherapp.data.Storage;
 import com.example.anotherweatherapp.data.api.WeatherApi;
-import com.example.anotherweatherapp.data.model.HourlyForecastsInfo;
 import com.example.anotherweatherapp.utils.ApiUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.functions.Action;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import moxy.InjectViewState;
 
@@ -48,30 +42,34 @@ public class MainPresenter extends BasePresenter<MainView> {
     public void getHourlyForecast() {
         Log.d(MainFragment.TAG, "getHourlyForecast: ");
         compositeDisposable.add(
-                mApi.getHourlyForcast("294021",
-                        BuildConfig.API_KEY, "en-us", "true")
+                mApi.getForecast("33.441792",
+                      "-94.037689", "minutely",BuildConfig.API_KEY)
                         .subscribeOn(Schedulers.io())
-                        .doOnSuccess(mStorage::insertHourlyForecast)
+                        .doOnSuccess(mStorage::insertAllForecast)
                         .onErrorReturn(throwable -> {
+                            Log.d("TAG", "execeptionm: "+ throwable.getClass());
                             if (ApiUtils.NETWORK_EXCEPTIONS.contains(throwable.getClass())){
+                                Log.d("TAG", "execeptionm: ");
                                 return mStorage.getHourlyForecast();
                             }else {
-                                 view.showError(throwable.getMessage());
-                                List<HourlyForecastsInfo> hourlyForecastsInfo= new ArrayList<>();
-                                hourlyForecastsInfo.clear();
-                                return hourlyForecastsInfo;
+                            //     view.showError(throwable.getMessage());
+                                return null;
                             }
                         })
                         .observeOn(AndroidSchedulers.mainThread())
                         .doOnSubscribe(disposable -> view.showRefresh())
                         .doFinally(view::hideRefresh)
                         .subscribe(
-                                responses -> {
-                                    Log.d(MainFragment.TAG, "Response is " + responses.size());
-                                    view.showForecast(responses);
+                                response -> {
+                                   // Log.d(MainFragment.TAG, "Response is " + responses.size());
+                                    view.showForecast(response);
                                 },
 
-                                throwable -> view.showError(throwable.getMessage()))
+                                throwable -> {
+                                    view.showError(throwable.getMessage()+ throwable.getClass() );
+                                    throwable.getCause().fillInStackTrace();
+                                throwable.printStackTrace();}
+                        )
         );
     }
 

@@ -1,6 +1,5 @@
 package com.example.anotherweatherapp.ui;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.IntentSender;
@@ -20,7 +19,7 @@ import com.example.anotherweatherapp.R;
 import com.example.anotherweatherapp.common.PresenterFragment;
 import com.example.anotherweatherapp.common.RefreshOwner;
 import com.example.anotherweatherapp.common.Refreshable;
-import com.example.anotherweatherapp.data.model.HourlyForecastsInfo;
+import com.example.anotherweatherapp.data.model.Example;
 import com.example.anotherweatherapp.utils.PermissionUtils;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -35,17 +34,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import moxy.presenter.InjectPresenter;
 
 public class MainFragment extends PresenterFragment<MainPresenter> implements MainView, Refreshable {
 
@@ -86,9 +80,8 @@ public class MainFragment extends PresenterFragment<MainPresenter> implements Ma
         super.onStart();
         Log.d(TAG, "onStart: ");
         if (PermissionUtils.isAccessLocationGranted(requireContext())) {
-            if (PermissionUtils.isLocationEnabled(requireContext())) {
-                getLocation();
-            } else {
+            if (!PermissionUtils.isLocationEnabled(requireContext())) {
+               /* getLocation();*/
                 PermissionUtils.showGPSNotEnabledDialog(requireContext());
             }
         } else {
@@ -138,13 +131,13 @@ public class MainFragment extends PresenterFragment<MainPresenter> implements Ma
     }
 
     @Override
-    public void showForecast(List<HourlyForecastsInfo> hourlyForecastsInfoList) {
-        Log.d(TAG, "showForecast: " + hourlyForecastsInfoList.size());
-        HourlyForecastsInfo hourlyForecastsInfo = hourlyForecastsInfoList.get(0);
-        Log.d(TAG, "showForecast: " + hourlyForecastsInfo.getTemperature().getValue());
-        tempTextView.setText(hourlyForecastsInfo.getTemperature().getValue().toString());
-        iconPhraseTextView.setText(hourlyForecastsInfo.getIconPhrase());
-        mHourlyAdapter.addData(hourlyForecastsInfoList);
+    public void showForecast(Example example) {
+        //Log.d(TAG, "showForecast: " + example.size());
+      //  HourlyForecastsInfo hourlyForecastsInfo = hourlyForecastsInfoList.get(0);
+        Log.d(TAG, "showForecast: " + example.getCurrent().getTemp().toString());
+        tempTextView.setText(example.getCurrent().getTemp().toString());
+        iconPhraseTextView.setText(example.getCurrent().getWeather().get(0).getMain());
+        mHourlyAdapter.addData(example.getHourly());
     }
 
 
@@ -169,24 +162,14 @@ public class MainFragment extends PresenterFragment<MainPresenter> implements Ma
     @Override
     public void getLocation() {
         Log.d(TAG, "Start getLocation: ");
-        // location = new Location("");
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
         SettingsClient settingsClient = LocationServices.getSettingsClient(requireContext());
 
-
-       /* if(fusedLocationClient.getLastLocation()!=null){
-          fusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-              @Override
-              public void onSuccess(Location location) {
-                  location.getTime();
-                  mPresenter.getLocation(location);
-              }
-          });
-        }else {*/
-         locationRequest = new LocationRequest().setInterval(2000).setFastestInterval(2000).setNumUpdates(1)
+        locationRequest = new LocationRequest().setInterval(2000).setFastestInterval(2000).setNumUpdates(1)
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-         locationCallback = new LocationCallback() {
+        locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
@@ -195,43 +178,41 @@ public class MainFragment extends PresenterFragment<MainPresenter> implements Ma
                     Log.d(TAG, "onLocationResult: " + location.getLongitude() + location.getLatitude());
                 }
 
-                 /*   location.setLatitude(locationResult.getLastLocation().getLatitude());
-                    location.setLongitude(locationResult.getLastLocation().getLongitude());*/
             }
         };
-     //
+
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(locationRequest);
-       // LocationSettingsRequest locationSettingsRequest = builder.build();
+
         Task<LocationSettingsResponse> task = settingsClient.checkLocationSettings(builder.build());
-       task.addOnSuccessListener(getActivity(), new OnSuccessListener<LocationSettingsResponse>() {
-                   @Override
-                   public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-                       Log.d(TAG, "All location settings are satisfied.");
-                       fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
-                   }
-               })
-       .addOnFailureListener(getActivity(), new OnFailureListener() {
-           @Override
-           public void onFailure(@NonNull Exception e) {
-               if (e instanceof ResolvableApiException) {
-                   // Location settings are not satisfied, but this can be fixed
-                   // by showing the user a dialog.
-                   try {
-                       // Show the dialog by calling startResolutionForResult(),
-                       // and check the result in onActivityResult().
-                       ResolvableApiException resolvable = (ResolvableApiException) e;
-                       resolvable.startResolutionForResult(getActivity(),
-                               LOCATION_PERMISSION_REQUEST_CODE);
-                   } catch (IntentSender.SendIntentException sendEx) {
-                       // Ignore the error.
-                   }
-               }
-           }
-       });
-        // mPresenter.getLocation(location);
+        task.addOnSuccessListener(getActivity(), new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                Log.d(TAG, "All location settings are satisfied.");
+                fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
+            }
+        })
+                .addOnFailureListener(getActivity(), new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (e instanceof ResolvableApiException) {
+                            // Location settings are not satisfied, but this can be fixed
+                            // by showing the user a dialog.
+                            try {
+                                // Show the dialog by calling startResolutionForResult(),
+                                // and check the result in onActivityResult().
+                                ResolvableApiException resolvable = (ResolvableApiException) e;
+                                resolvable.startResolutionForResult(getActivity(),
+                                        LOCATION_PERMISSION_REQUEST_CODE);
+                            } catch (IntentSender.SendIntentException sendEx) {
+                                // Ignore the error.
+                            }
+                        }
+                    }
+                });
+
         fusedLocationClient.removeLocationUpdates(locationCallback);
-        fusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+        /*fusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
@@ -240,7 +221,7 @@ public class MainFragment extends PresenterFragment<MainPresenter> implements Ma
                 }
 
             }
-        });
+        });*/
     }
 
     @Override

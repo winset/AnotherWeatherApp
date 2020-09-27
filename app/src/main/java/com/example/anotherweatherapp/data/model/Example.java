@@ -1,35 +1,71 @@
 package com.example.anotherweatherapp.data.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import androidx.room.Relation;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@Entity(tableName = "example")
 public class Example {
+
+    @PrimaryKey
+    @ColumnInfo(name = "id")
+    private int id;
+
+    @ColumnInfo(name = "lat")
     @SerializedName("lat")
     @Expose
     private Double lat;
+    @ColumnInfo(name = "lon")
     @SerializedName("lon")
     @Expose
     private Double lon;
+    @ColumnInfo(name = "timezone")
     @SerializedName("timezone")
     @Expose
     private String timezone;
+
+    @ColumnInfo(name = "timezone_offset")
     @SerializedName("timezone_offset")
     @Expose
     private Long timezoneOffset;
+
+    @Embedded
     @SerializedName("current")
     @Expose
     private Current current;
+
+
     @SerializedName("minutely")
     @Expose
+    @Ignore
     private List<Minutely> minutely = null;
+
     @SerializedName("hourly")
     @Expose
+    @Ignore
     private List<Hourly> hourly = null;
+
     @SerializedName("daily")
     @Expose
+    @Ignore
     private List<Daily> daily = null;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     public Double getLat() {
         return lat;
