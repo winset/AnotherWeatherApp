@@ -20,7 +20,7 @@ import javax.inject.Inject;
 
 public class HourlyForecastAdapter extends RecyclerView.Adapter<HourlyForecastAdapter.HourlyForecastViewHolder> {
 
-    private List<Hourly> hourlyForecastsInfoList = new ArrayList<>();
+    private List<Hourly> hourlyForecastList = new ArrayList<>();
 
     @Inject
     public HourlyForecastAdapter() {
@@ -36,18 +36,18 @@ public class HourlyForecastAdapter extends RecyclerView.Adapter<HourlyForecastAd
 
     @Override
     public void onBindViewHolder(@NonNull HourlyForecastViewHolder holder, int position) {
-        holder.bind(hourlyForecastsInfoList.get(position));
+        holder.bind(hourlyForecastList.get(position));
     }
 
     @Override
     public int getItemCount() {
 
-        return hourlyForecastsInfoList.size();
+        return hourlyForecastList.size();
     }
 
     public void addData(List<Hourly> hourlyForecastsInfoList){
-        this.hourlyForecastsInfoList.clear();
-        this.hourlyForecastsInfoList.addAll(hourlyForecastsInfoList);
+        this.hourlyForecastList.clear();
+        this.hourlyForecastList.addAll(hourlyForecastsInfoList);
       /*  Log.d(MainFragment.TAG, "addData: " + hourlyForecastsInfoList.get(1).getDateTime());*/
         notifyDataSetChanged();
     }

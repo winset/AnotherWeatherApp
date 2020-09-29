@@ -19,7 +19,9 @@ import com.example.anotherweatherapp.R;
 import com.example.anotherweatherapp.common.PresenterFragment;
 import com.example.anotherweatherapp.common.RefreshOwner;
 import com.example.anotherweatherapp.common.Refreshable;
+import com.example.anotherweatherapp.data.model.Daily;
 import com.example.anotherweatherapp.data.model.Example;
+import com.example.anotherweatherapp.data.model.Hourly;
 import com.example.anotherweatherapp.utils.PermissionUtils;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -41,6 +43,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 public class MainFragment extends PresenterFragment<MainPresenter> implements MainView, Refreshable {
 
     public static final String TAG = MainFragment.class.getSimpleName();
@@ -50,16 +54,18 @@ public class MainFragment extends PresenterFragment<MainPresenter> implements Ma
     private TextView iconPhraseTextView;
     private RefreshOwner mRefreshOwner;
     private RecyclerView mHourlyRecyclerView;
+    private RecyclerView mDailyRecyclerView;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
     private LocationCallback locationCallback;
-    // private FusedLocationProviderClient fusedLocationClient;
-    // private Location location;
+
 
     @Inject
     MainPresenter mPresenter;
     @Inject
     HourlyForecastAdapter mHourlyAdapter;
+    @Inject
+    DailyForecastAdapter mDailyAdapter;
 
 
     public static MainFragment newInstance() {
@@ -81,7 +87,7 @@ public class MainFragment extends PresenterFragment<MainPresenter> implements Ma
         Log.d(TAG, "onStart: ");
         if (PermissionUtils.isAccessLocationGranted(requireContext())) {
             if (!PermissionUtils.isLocationEnabled(requireContext())) {
-               /* getLocation();*/
+                //getLocation();
                 PermissionUtils.showGPSNotEnabledDialog(requireContext());
             }
         } else {
@@ -93,8 +99,6 @@ public class MainFragment extends PresenterFragment<MainPresenter> implements Ma
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main, container, false);
-
-
         return view;
     }
 
@@ -104,8 +108,7 @@ public class MainFragment extends PresenterFragment<MainPresenter> implements Ma
         tempTextView = view.findViewById(R.id.deg_tv);
         iconPhraseTextView = view.findViewById(R.id.icon_phrase_tv);
         mHourlyRecyclerView = view.findViewById(R.id.hourly_recycler);
-
-
+        mDailyRecyclerView = view.findViewById(R.id.daily_recycler);
     }
 
     @Override
@@ -116,13 +119,18 @@ public class MainFragment extends PresenterFragment<MainPresenter> implements Ma
         mPresenter.setView(this);
 
         mHourlyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mDailyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mDailyRecyclerView.setHasFixedSize(true);
+        mHourlyRecyclerView.setHasFixedSize(true);
         mHourlyRecyclerView.setAdapter(mHourlyAdapter);
+        mDailyRecyclerView.setAdapter(mDailyAdapter);
         onRefreshData();
     }
 
     @Override
     public void showError(String error) {
         Log.d(TAG, "showError: " + error);
+        Toast.makeText(getContext(), error, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -131,21 +139,27 @@ public class MainFragment extends PresenterFragment<MainPresenter> implements Ma
     }
 
     @Override
-    public void showForecast(Example example) {
-        //Log.d(TAG, "showForecast: " + example.size());
-      //  HourlyForecastsInfo hourlyForecastsInfo = hourlyForecastsInfoList.get(0);
-        Log.d(TAG, "showForecast: " + example.getCurrent().getTemp().toString());
+    public void showCurrentForecast(Example example) {
+        Log.d(TAG, "showCurrentForecast: "+ example.getTimezone());
         tempTextView.setText(example.getCurrent().getTemp().toString());
         iconPhraseTextView.setText(example.getCurrent().getWeather().get(0).getMain());
-        mHourlyAdapter.addData(example.getHourly());
     }
 
+    @Override
+    public void showHourlyForecast(List<Hourly> hourlyList) {
+        mHourlyAdapter.addData(hourlyList);
+    }
+
+    @Override
+    public void showDailyForecast(List<Daily> dailyList) {
+        mDailyAdapter.addData(dailyList);
+    }
 
     @Override
     public void onRefreshData() {
         //mPresenter.getLocation();
         getLocation();
-        mPresenter.getHourlyForecast();
+        // mPresenter.getForecast();
     }
 
     @Override
@@ -173,9 +187,10 @@ public class MainFragment extends PresenterFragment<MainPresenter> implements Ma
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
-                Log.d(TAG, "onLocationResult: 123");
                 for (Location location : locationResult.getLocations()) {
                     Log.d(TAG, "onLocationResult: " + location.getLongitude() + location.getLatitude());
+                    mPresenter.setLocation(String.valueOf(location.getLongitude()), String.valueOf(location.getLatitude()));
+                    mPresenter.getForecast();
                 }
 
             }
@@ -191,37 +206,26 @@ public class MainFragment extends PresenterFragment<MainPresenter> implements Ma
                 Log.d(TAG, "All location settings are satisfied.");
                 fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
             }
-        })
-                .addOnFailureListener(getActivity(), new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        if (e instanceof ResolvableApiException) {
-                            // Location settings are not satisfied, but this can be fixed
-                            // by showing the user a dialog.
-                            try {
-                                // Show the dialog by calling startResolutionForResult(),
-                                // and check the result in onActivityResult().
-                                ResolvableApiException resolvable = (ResolvableApiException) e;
-                                resolvable.startResolutionForResult(getActivity(),
-                                        LOCATION_PERMISSION_REQUEST_CODE);
-                            } catch (IntentSender.SendIntentException sendEx) {
-                                // Ignore the error.
-                            }
-                        }
+        }).addOnFailureListener(getActivity(), new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                if (e instanceof ResolvableApiException) {
+                    // Location settings are not satisfied, but this can be fixed
+                    // by showing the user a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(),
+                        // and check the result in onActivityResult().
+                        ResolvableApiException resolvable = (ResolvableApiException) e;
+                        resolvable.startResolutionForResult(getActivity(),
+                                LOCATION_PERMISSION_REQUEST_CODE);
+                    } catch (IntentSender.SendIntentException sendEx) {
+                        // Ignore the error.
                     }
-                });
+                }
+            }
+        });
 
         fusedLocationClient.removeLocationUpdates(locationCallback);
-        /*fusedLocationClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    // Logic to handle location object
-                    Log.d(TAG, "getLocation last location : "+location.getLatitude()+" " + location.getLongitude());
-                }
-
-            }
-        });*/
     }
 
     @Override
