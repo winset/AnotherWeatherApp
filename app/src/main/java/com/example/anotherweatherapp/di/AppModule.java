@@ -2,7 +2,6 @@ package com.example.anotherweatherapp.di;
 
 
 import androidx.room.Room;
-import androidx.room.RoomDatabase;
 
 import com.example.anotherweatherapp.AppDelegate;
 import com.example.anotherweatherapp.data.Storage;

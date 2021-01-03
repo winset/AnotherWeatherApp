@@ -4,4 +4,5 @@
     <string name="gps_dialog_message">Turn on GPS to show the weather in your area or select a city</string>
     <string name="turn_on_gps">Turn on gps</string>
     <string name="location_permission_not_granted">Location permission not granted</string>
+    <string name="solar_cycle_middle_text">Sunshine and sunrise</string>
 </resources>

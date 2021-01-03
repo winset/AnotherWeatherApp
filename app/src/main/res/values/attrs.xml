@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SolarCycleView">
+        <attr name="line_color" format="color"/>
+        <attr name="stroke_width" format="float"/>
+        <attr name="top_margin" format="integer"/>
+        <attr name="bottom_margin" format="integer"/>
+        <attr name="right_margin" format="integer"/>
+        <attr name="left_margin" format="integer"/>
+        <attr name="middle_text" format="string"/>
+        <attr name="middle_textSize" format="float"/>
+        <attr name="bottom_textSize" format="float"/>
+    </declare-styleable>
+    
+</resources>

@@ -9,7 +9,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Entity(foreignKeys = @ForeignKey(
-        entity = Example.class,
+        entity = WeatherForecast.class,
         parentColumns = "id",
         childColumns = "example_id"
 ))

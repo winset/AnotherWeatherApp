@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class Weather {
     @SerializedName("id")
     @Expose
-    private Long id;
+    private int id;
     @SerializedName("main")
     @Expose
     private String main;
@@ -17,11 +17,11 @@ public class Weather {
     @Expose
     private String icon;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
