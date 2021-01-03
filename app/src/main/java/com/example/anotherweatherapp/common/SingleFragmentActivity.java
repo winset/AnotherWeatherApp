@@ -1,14 +1,13 @@
 package com.example.anotherweatherapp.common;
 
 import android.os.Bundle;
-
-import com.example.anotherweatherapp.R;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.example.anotherweatherapp.R;
 
 public abstract class SingleFragmentActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,RefreshOwner {
 

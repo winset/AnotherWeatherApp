@@ -8,26 +8,31 @@
 
     <TextView
         android:id="@+id/day_of_week_tv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_weight="2"
+        android:layout_gravity="center"
         android:gravity="center"
         android:textSize="18sp"
-        tools:text="Thu" />
+        tools:text="Thu 03 OCt" />
 
-   <!-- <ImageView
+    <ImageView
         android:id="@+id/daily_image_iv"
-        android:layout_width="match_parent"
+        android:layout_width="0px"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        />-->
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@mipmap/cloud"/>
 
     <TextView
         android:id="@+id/daily_temp_tv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
         android:layout_weight="2"
+        android:layout_gravity="center"
         android:gravity="center"
         android:textSize="18sp"
         tools:text="24/18" />

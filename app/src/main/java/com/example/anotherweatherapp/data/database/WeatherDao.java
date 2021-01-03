@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.anotherweatherapp.data.model.Daily;
-import com.example.anotherweatherapp.data.model.Example;
+import com.example.anotherweatherapp.data.model.WeatherForecast;
 import com.example.anotherweatherapp.data.model.Hourly;
 
 import java.util.List;
@@ -14,8 +14,8 @@ import java.util.List;
 @Dao
 public interface WeatherDao {
 
-    @Query("SELECT * FROM example")
-    Example getAllForecast();
+    @Query("SELECT * FROM WeatherForecast")
+    WeatherForecast getAllForecast();
 
     @Query("SELECT * FROM hourly")
     List<Hourly> getHourlyForecast();
@@ -27,7 +27,7 @@ public interface WeatherDao {
     List<HourlyForecastsInfo> getByIdHourlyForecast(int id);*/
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertForecast(Example example);
+    void insertForecast(WeatherForecast weatherForecast);
 
   /*  @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertCurrentForecast(Current current);*/

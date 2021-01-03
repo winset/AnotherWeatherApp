@@ -10,19 +10,18 @@ import android.location.LocationManager;
 import android.provider.Settings;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.anotherweatherapp.R;
 
+
 public class PermissionUtils {
 
-   public static void requestAccessLocationPermission(Activity activity, int requestId) {
-        ActivityCompat.requestPermissions(
-                activity,
+   /*public static void requestAccessLocationPermission(Context context, int requestId) {
+        requestPermissions(
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 requestId);
-    }
+    }*/
 
     public static Boolean isAccessLocationGranted(Context context) {
         return ContextCompat.checkSelfPermission(

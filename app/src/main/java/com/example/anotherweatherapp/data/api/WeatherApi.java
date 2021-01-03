@@ -1,6 +1,6 @@
 package com.example.anotherweatherapp.data.api;
 
-import com.example.anotherweatherapp.data.model.Example;
+import com.example.anotherweatherapp.data.model.WeatherForecast;
 
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;
@@ -16,7 +16,7 @@ public interface WeatherApi  {
             @Query("metric") String metric);*/
 
     @GET("data/2.5/onecall" )
-    Single<Example> getForecast(
+    Single<WeatherForecast> getForecast(
             //  @Path("locationId") String locationId,
             @Query("lat") String latitude,
             @Query("lon") String longitude,

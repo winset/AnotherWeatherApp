@@ -1,203 +1,230 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--<androidx.core.widget.NestedScrollView
+<?xml version="1.0" encoding="utf-8"?><!--<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent">-->
 
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:orientation="vertical"
-    tools:context=".ui.MainActivity">
+    android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
+
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_gravity="center_horizontal"
-        app:cardBackgroundColor="#00BCD4"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="6dp">
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        tools:context=".ui.main.MainActivity">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="15dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-               android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/indicator_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_launcher_background" />
-
-
-                <TextView
-                    android:id="@+id/deg_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="20dp"
-                    android:gravity="end|center_vertical"
-                    android:text="24"
-                    android:textSize="48sp" />
-
-
-            </LinearLayout>
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            app:cardBackgroundColor="@color/mainColor"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="6dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
+                android:layout_margin="15dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/icon_phrase_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="30sp"
-                    android:text="Heavy Rain"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Morning"
-                    android:textSize="20sp"/>
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/indicator_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerInside"
+                        tools:src="@mipmap/cloud" />
+
+
+                    <TextView
+                        android:id="@+id/deg_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="20dp"
+                        android:gravity="end|center_vertical"
+                        android:textSize="48sp"
+                        tools:text="24" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/icon_phrase_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="30sp"
+                        tools:text="Heavy Rain" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Morning"
+                        android:textSize="20sp" />
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
 
 
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        app:cardBackgroundColor="#4AB1BD"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="6dp">
-
-        <RelativeLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/mainColor"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="6dp">
 
-            <TextView
-                android:id="@+id/wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:text="Wind"
-                android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/wind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:paddingHorizontal="20dp"
+                    android:text="Wind"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/wind_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/wind"
-                android:layout_alignLeft="@id/wind"
-                android:layout_marginTop="10dp"
-                android:text="33 m/h"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/wind_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
-            <TextView
-                android:id="@+id/humidity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:text="Humidity"
-                android:textSize="18sp" />
+                    android:layout_below="@id/wind"
+                    android:layout_alignStart="@id/wind"
+                    android:layout_alignEnd="@id/wind"
 
+                    android:layout_marginTop="10dp"
 
-            <TextView
-                android:id="@+id/humidity_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/humidity"
-                android:layout_alignLeft="@id/humidity"
-                android:layout_marginTop="10dp"
-                android:text="23 km"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="3 m/s" />
 
-            <TextView
-                android:id="@+id/visibility"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:text="Visibility"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/visibility_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/visibility"
-                android:layout_alignLeft="@id/visibility"
-                android:layout_marginTop="10dp"
-                android:text="64%"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/humidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:text="Humidity"
+                    android:textSize="18sp" />
 
 
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/humidity_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/humidity"
+                    android:layout_alignStart="@id/humidity"
+                    android:layout_alignEnd="@id/humidity"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="23 km" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        app:cardBackgroundColor="#4AB1BD"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="6dp">
+                <TextView
+                    android:id="@+id/visibility"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="40dp"
+                    android:text="Visibility"
+                    android:textSize="18sp" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/hourly_recycler"
+                <TextView
+                    android:id="@+id/visibility_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/visibility"
+                    android:layout_alignStart="@id/visibility"
+                    android:layout_alignEnd="@id/visibility"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    tools:text="64%" />
+
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </androidx.cardview.widget.CardView>
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/mainColor"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="6dp">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        app:cardBackgroundColor="#4AB1BD"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="6dp">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/daily_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-    </androidx.cardview.widget.CardView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/hourly_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/mainColor"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="6dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/daily_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.cardview.widget.CardView>
+
+        <com.example.anotherweatherapp.ui.main.SolarCycleView
+            android:id="@+id/solar_cycle"
+            android:layout_width="match_parent"
+            android:layout_height="165dp"
+            android:layout_marginTop="10dp"
+            app:line_color="@color/colorPrimary"
+            app:middle_text="@string/solar_cycle_middle_text"
+            app:middle_textSize="50"
+            app:stroke_width="10"
+            />
 
 
-</LinearLayout>
-<!--
-</androidx.core.widget.NestedScrollView>-->
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

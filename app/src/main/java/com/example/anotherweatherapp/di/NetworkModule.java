@@ -1,8 +1,9 @@
 package com.example.anotherweatherapp.di;
 
-import com.example.anotherweatherapp.BuildConfig;
+
 import com.example.anotherweatherapp.data.api.WeatherApi;
 import com.google.gson.Gson;
+import com.example.anotherweatherapp.BuildConfig;
 
 import javax.inject.Singleton;
 
